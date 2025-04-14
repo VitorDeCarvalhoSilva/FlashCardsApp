@@ -34,6 +34,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.flashcardsapp.ui.screens.homePage.AssuntosScreen
 import com.example.flashcardsapp.ui.theme.FlashCardsAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,99 +45,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             FlashCardsAppTheme {
                 Scaffold(
-                    modifier = Modifier.padding(horizontal = 30.dp)
+
                 ) {
                     AssuntosScreen()
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun AssuntosScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        TopBar()
-        Title("Assuntos")
-        Spacer(modifier = Modifier.height(24.dp))
-
-        SubjectCard("Inglês")
-        Spacer(modifier = Modifier.height(12.dp))
-        SubjectCard("Inglês")
-    }
-}
-
-@Composable
-fun TopBar() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 60.dp),
-
-    ) {
-        IconButton(
-            onClick = { /*TODO*/ }
-
-        ){
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menu"
-            )
-        }
-
-    }
-}
-
-@Composable
-fun Title(text: String){
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Text(
-            text = "Assuntos",
-            fontSize = 22.sp,
-
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        IconButton(onClick = { /* ação do botão + */ }) {
-            Icon(
-                imageVector = Icons.Default.AddCircle,
-                contentDescription = "Adicionar assunto",
-                tint = Color(0xFF008C6D)
-            )
-        }
-    }
-}
-
-@Composable
-fun SubjectCard(text: String) {
-    Card(
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(6.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2AC2A3)),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                text = text,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-            )
-            Icon(
-                imageVector = Icons.Default.ArrowForward,
-                contentDescription = "Ir para assunto",
-                tint = Color.White
-            )
         }
     }
 }
