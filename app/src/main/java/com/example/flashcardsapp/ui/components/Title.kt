@@ -26,32 +26,47 @@ val Capriola = FontFamily(Font(R.font.capriola_regular)) // Fonte personalizada
 @Composable
 fun Title(
     text: String,
+    subtitle: String? = null,
     icon: ImageVector? = null, // Ícone opcional à direita do título
     onIconClick: (() -> Unit)? = null // Ação ao clicar no ícone
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween // Alinha o texto à esquerda e o ícone à direita
-    ) {
-        Text(
-            text = text, // Texto do título
-            fontSize = 36.sp,
-            fontFamily = Capriola,
-            color = Color(0xFF034B36)
-        )
+    Column {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween // Alinha o texto à esquerda e o ícone à direita
+        ) {
+            Text(
+                text = text, // Texto do título
+                fontSize = 36.sp,
+                fontFamily = Capriola,
+                color = Color(0xFF034B36)
+            )
 
-        // Exibe o ícone apenas se ambos (ícone e ação) forem fornecidos
-        if (icon != null && onIconClick != null) {
-            IconButton(
-                onClick = onIconClick
-            ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = "Ícone de ação",
-                    tint = Color(0xFF008C6D),
-                    modifier = Modifier.size(36.dp)
+            // Exibe o ícone apenas se ambos (ícone e ação) forem fornecidos
+            if (icon != null && onIconClick != null) {
+                IconButton(
+                    onClick = onIconClick
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = "Ícone de ação",
+                        tint = Color(0xFF008C6D),
+                        modifier = Modifier.size(36.dp)
+                    )
+                }
+            }
+
+        }
+        Row {
+            if (subtitle != null) {
+                Text(
+                    text = subtitle,
+                    fontSize = 24.sp,
+                    fontFamily = Capriola,
+                    color = Color(0xFF595B5A)
                 )
+
             }
         }
     }

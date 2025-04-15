@@ -34,6 +34,9 @@ fun MenuOverlay(
     locations: List<Location>,
     onAddLocation: (String) -> Unit,
     onRemoveLocation: (Location) -> Unit,
+    selectedLocation: Location?,
+    onSelectLocation: (Location) -> Unit,
+    onAddLocationClick: () -> Unit
 ) {
     if (isOpen.value) {
         Box(Modifier.fillMaxSize()) {
@@ -63,9 +66,12 @@ fun MenuOverlay(
                 AccordionSection(
                     title = "Localização",
                     locations = locations,
-                    onAdd = onAddLocation,
-                    onRemove = onRemoveLocation
+                    selectedLocation = selectedLocation,
+                    onAddClick = onAddLocationClick,
+                    onRemove = onRemoveLocation,
+                    onSelect = onSelectLocation
                 )
+
 
                 Spacer(Modifier.height(32.dp))
 

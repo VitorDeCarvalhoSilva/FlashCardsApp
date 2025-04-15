@@ -57,8 +57,11 @@ import kotlinx.coroutines.launch
 fun AccordionSection(
     title: String,
     locations: List<Location>,
-    onAdd: (String) -> Unit,
-    onRemove: (Location) -> Unit
+    selectedLocation: Location?,
+    onAddClick: () -> Unit, // <-- mudança aqui
+    onRemove: (Location) -> Unit,
+    onSelect: (Location) -> Unit
+
 ) {
     // Estado que controla se a seção está expandida ou não
     var isExpanded by remember {
@@ -93,19 +96,26 @@ fun AccordionSection(
     // Exibição da lista e botão "Nova Localização" apenas se estiver expandido
     if (isExpanded) {
         locations.forEach { location ->
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { onSelect(location) }
+                    .padding(vertical = 8.dp)
+            ) {
                 Text(
                     text = location.name,
                     modifier = Modifier.weight(1f),
                     fontFamily = PoppinsRegular,
                     fontSize = 16.sp,
-                    color = Color(0xFF595B5A)
+                    color = if (location == selectedLocation) Color(0xFF034B36) else Color(0xFF595B5A)
                 )
                 IconButton(onClick = { onRemove(location) }) {
                     Icon(Icons.Default.Close, contentDescription = "Remover")
                 }
             }
         }
+
 
         // Exibe alerta se o limite foi atingido
         if (showAlert) {
@@ -118,7 +128,7 @@ fun AccordionSection(
         Button(
             onClick = {
                 if (locations.size < 7) {
-                    onAdd("Nova Localização") // Aqui futuramente pode abrir um diálogo para digitação
+                    onAddClick()
                     showAlert = false
                 } else {
                     showAlert = true
