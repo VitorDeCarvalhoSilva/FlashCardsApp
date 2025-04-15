@@ -1,5 +1,8 @@
 package com.example.flashcardsapp.ui.screens.homePage
 
+import PoppinsBold
+import PoppinsRegular
+import PoppinsSemiBold
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -44,35 +47,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.flashcardsapp.R
+import com.example.flashcardsapp.entities.Location
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
-// RESUMO:
-// Este arquivo define dois composables:
-// - AccordionSection: seção expansível que exibe uma lista de locais com opção de adicionar/remover, com limite de até 7 locais.
-//   Exibe um alerta temporário ao atingir o limite.
-// - AlertSpan: exibe uma mensagem temporária com animação fadeIn/fadeOut.
 
 @Composable
 fun AccordionSection(
     title: String,
     locations: List<Location>,
     selectedLocation: Location?,
-    onAddClick: () -> Unit, // <-- mudança aqui
+    onAddClick: () -> Unit,
     onRemove: (Location) -> Unit,
     onSelect: (Location) -> Unit
-
 ) {
-    // Estado que controla se a seção está expandida ou não
     var isExpanded by remember {
-        val mutableStateOf = mutableStateOf(false)
-        mutableStateOf
+        mutableStateOf(false)
     }
 
-    // Estado que controla a exibição do alerta de limite
     var showAlert by remember { mutableStateOf(false) }
 
-    // Cabeçalho clicável com o título e o ícone de expansão
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.clickable(onClick = { isExpanded = !isExpanded })
@@ -93,7 +86,6 @@ fun AccordionSection(
         }
     }
 
-    // Exibição da lista e botão "Nova Localização" apenas se estiver expandido
     if (isExpanded) {
         locations.forEach { location ->
             Row(
@@ -116,15 +108,12 @@ fun AccordionSection(
             }
         }
 
-
-        // Exibe alerta se o limite foi atingido
         if (showAlert) {
             AlertSpan(text = "Limite atingido") {
                 showAlert = false
             }
         }
 
-        // Botão para adicionar nova localização
         Button(
             onClick = {
                 if (locations.size < 7) {
@@ -156,7 +145,6 @@ fun AlertSpan(
 ) {
     var visible by remember { mutableStateOf(true) }
 
-    // Inicia o efeito que remove o alerta após 2 segundos + tempo da animação
     LaunchedEffect(Unit) {
         delay(2000)
         visible = false
@@ -164,7 +152,6 @@ fun AlertSpan(
         onDismiss()
     }
 
-    // Componente com fadeIn/fadeOut
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn(animationSpec = tween(durationMillis = 300, easing = androidx.compose.animation.core.FastOutSlowInEasing)),

@@ -1,5 +1,6 @@
 package com.example.flashcardsapp.ui.components
 
+import PoppinsBold
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -13,7 +14,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.flashcardsapp.ui.screens.homePage.PoppinsBold
 
 @Composable
 fun RoundedOutlinedButton(
