@@ -1,33 +1,33 @@
 package com.example.flashcardsapp.ui.screens.homePage
 
+import PoppinsRegular
+import PoppinsSemiBold
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.flashcardsapp.R
 import com.example.flashcardsapp.entities.Subject
 import com.example.flashcardsapp.ui.components.MenuOverlay
 import com.example.flashcardsapp.ui.components.Title
-import com.example.flashcardsapp.ui.viewmodels.AssuntosViewModel
-
-
+import com.example.flashcardsapp.ui.viewmodels.AppViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun AssuntosScreen(
     onNavigateToSubject: (Subject) -> Unit,
-    viewModel: AssuntosViewModel = viewModel()
+    viewModel: AppViewModel = viewModel(),
+    locationsViewModel: AppViewModel = viewModel()
 ) {
     val showAddDialog = remember { mutableStateOf(false) }
     val isAddSubjectOpen = remember { mutableStateOf(false) }
@@ -43,12 +43,13 @@ fun AssuntosScreen(
                 Title(
                     text = "Assuntos",
                     subtitle = when {
-                        viewModel.locations.isEmpty() -> "Nenhuma localização criada"
-                        viewModel.selectedLocation.value == null -> "Nenhuma localização selecionada"
-                        else -> viewModel.selectedLocation.value!!.name
+                        locationsViewModel.locations.isEmpty() -> "Nenhuma localização criada"
+                        locationsViewModel.selectedLocation.value == null -> "Nenhuma localização selecionada"
+                        else -> locationsViewModel.selectedLocation.value!!.name
                     },
                     icon = Icons.Default.AddCircle,
-                    onIconClick = { isAddSubjectOpen.value = true }
+                    onIconClick = { isAddSubjectOpen.value = true },
+                    subtitleClickable = {isMenuOpen.value = true}
                 )
             }
 
@@ -58,13 +59,31 @@ fun AssuntosScreen(
 
             if (viewModel.subjects.isEmpty()) {
                 item {
-                    Text(
-                        text = "Ainda não há assuntos adicionados",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
-                        fontSize = 18.sp
-                    )
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "Ainda não há assuntos adicionados  \uD83D\uDE22",
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            fontSize = 20.sp,
+                            fontFamily = PoppinsSemiBold,
+                            color = Color(0xFF595B5A),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "Você pode adicionar assuntos clicando no botão '+'",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                            fontSize = 15.sp,
+                            fontFamily = PoppinsRegular,
+                            color = Color(0xFF595B5A),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
             } else {
                 items(viewModel.subjects) { subject ->
@@ -83,12 +102,15 @@ fun AssuntosScreen(
     // Menu lateral
     MenuOverlay(
         isOpen = isMenuOpen,
-        locations = viewModel.locations,
-        selectedLocation = viewModel.selectedLocation.value,
-        onSelectLocation = { viewModel.selectLocation(it) },
+        locations = locationsViewModel.locations,
+        selectedLocation = locationsViewModel.selectedLocation.value,
+        onSelectLocation = {
+            locationsViewModel.selectLocation(it)
+            isMenuOpen.value = false
+                           },
         onAddLocationClick = { showAddDialog.value = true },
-        onAddLocation = { viewModel.addLocation(it) },
-        onRemoveLocation = { viewModel.removeLocation(it) }
+        onAddLocation = { locationsViewModel.addLocation(it) },
+        onRemoveLocation = { locationsViewModel.removeLocation(it) }
     )
 
     // Adição de assunto
@@ -96,6 +118,17 @@ fun AssuntosScreen(
         AddSubjectOverlay(
             isOpen = isAddSubjectOpen,
             onAddSubject = { viewModel.addSubject(it) }
+        )
+    }
+
+    // Diálogo de nova localização
+    if (showAddDialog.value) {
+        AddLocationAlert(
+            showDialog = showAddDialog,
+            onConfirm = {
+                locationsViewModel.addLocation(it)
+                locationsViewModel.selectLocation(locationsViewModel.locations.last())
+            }
         )
     }
 }  

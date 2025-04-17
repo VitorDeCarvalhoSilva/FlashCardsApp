@@ -1,5 +1,6 @@
 package com.example.flashcardsapp.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -28,7 +29,8 @@ fun Title(
     text: String,
     subtitle: String? = null,
     icon: ImageVector? = null, // Ícone opcional à direita do título
-    onIconClick: (() -> Unit)? = null // Ação ao clicar no ícone
+    onIconClick: (() -> Unit)? = null, // Ação ao clicar no ícone
+    subtitleClickable: (() -> Unit)? = null
 ) {
     Column {
         Row(
@@ -60,11 +62,18 @@ fun Title(
         }
         Row {
             if (subtitle != null) {
+
+
                 Text(
                     text = subtitle,
                     fontSize = 24.sp,
                     fontFamily = Capriola,
-                    color = Color(0xFF595B5A)
+                    color = Color(0xFF595B5A),
+                    modifier = Modifier.clickable {
+                        if(subtitleClickable != null){
+                            subtitleClickable()
+                        }
+                    }
                 )
 
             }

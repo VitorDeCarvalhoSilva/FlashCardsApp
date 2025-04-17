@@ -1,11 +1,9 @@
 package com.example.flashcardsapp.ui.components
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +45,7 @@ fun MenuOverlay(
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
                 Spacer(modifier = Modifier.height(120.dp))
-                Title(text = "Menu")
+                Title(text = "Menu",)
                 Spacer(modifier = Modifier.height(20.dp))
 
                 AccordionSection(

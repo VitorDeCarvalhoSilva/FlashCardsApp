@@ -1,60 +1,42 @@
 package com.example.flashcardsapp
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.flashcardsapp.entities.Exercise
-import com.example.flashcardsapp.entities.Subject
+import androidx.navigation.navArgument
 import com.example.flashcardsapp.ui.screens.homePage.AssuntosScreen
 import com.example.flashcardsapp.ui.screens.subjectDetail.SubjectDetailScreen
+import com.example.flashcardsapp.ui.viewmodels.AppViewModel
 
 @Composable
 fun FlashCardsApp() {
     val navController = rememberNavController()
+    val appViewModel: AppViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = "assuntos") {
 
         composable("assuntos") {
             AssuntosScreen(
+                viewModel = appViewModel,
                 onNavigateToSubject = { subject ->
-                    navController.currentBackStackEntry
-                        ?.savedStateHandle
-                        ?.set("subject", subject)
-
-                    navController.navigate("subject_detail")
+                    navController.navigate("subject_detail/${subject.id}")
                 }
             )
         }
 
-        composable("subject_detail") { backStackEntry ->
-            val subject = remember {
-                navController.previousBackStackEntry
-                    ?.savedStateHandle
-                    ?.get<Subject>("subject")
-            }
-
-            if (subject != null) {
-                SubjectDetailScreen(
-                    subject = subject,
-                    onBackClick = { navController.popBackStack() }
-                )
-            } else {
-                // DEBUG
-                Text(
-                    text = "Carregando assunto...",
-                    color = Color.Gray,
-                    modifier = Modifier.padding(40.dp)
-                )
-            }
+        composable(
+            route = "subject_detail/{subjectId}",
+            arguments = listOf(navArgument("subjectId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val subjectId = backStackEntry.arguments?.getInt("subjectId") ?: return@composable
+            SubjectDetailScreen(
+                subjectId = subjectId,
+                viewModel = appViewModel,
+                onBackClick = { navController.popBackStack() }
+            )
         }
-
-
     }
 }
