@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HeaderButtons(
     onBackClick: () -> Unit,
-    onDeleteClick: () -> Unit,
+    onDeleteClick: (() -> Unit) ?= null,
 ){
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = 60.dp),
@@ -38,13 +38,15 @@ fun HeaderButtons(
 
         }
 
-        IconButton(onClick = { /* deletar assunto */ }) {
-            Icon(
-                imageVector = Icons.Default.Delete,
-                contentDescription = "Excluir assunto",
-                tint = Color(0xFFBF2E2E),
-                modifier = Modifier.size(36.dp)
-            )
+        if (onDeleteClick != null) {
+            IconButton(onClick = { /* deletar assunto */ }) {
+                Icon(
+                    imageVector = Icons.Default.Delete,
+                    contentDescription = "Excluir assunto",
+                    tint = Color(0xFFBF2E2E),
+                    modifier = Modifier.size(36.dp)
+                )
+            }
         }
     }
 }

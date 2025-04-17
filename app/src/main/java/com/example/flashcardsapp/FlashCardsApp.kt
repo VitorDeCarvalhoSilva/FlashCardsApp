@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.flashcardsapp.ui.screens.createExercise.CreateExerciseScreen
 import com.example.flashcardsapp.ui.screens.homePage.AssuntosScreen
 import com.example.flashcardsapp.ui.screens.subjectDetail.SubjectDetailScreen
 import com.example.flashcardsapp.ui.viewmodels.AppViewModel
@@ -35,8 +36,28 @@ fun FlashCardsApp() {
             SubjectDetailScreen(
                 subjectId = subjectId,
                 viewModel = appViewModel,
-                onBackClick = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() },
+                onNavigateToCreateExercise = { subjectId ->
+                    navController.navigate("create_exercise/$subjectId")
+                }
             )
+        }
+
+        composable (
+            route = "create_exercise/{subjectId}",
+            arguments = listOf(navArgument("subjectId") { type = NavType.IntType })
+        ){
+            backStackEntry ->
+            val subjectId = backStackEntry.arguments?.getInt("subjectId") ?: return@composable
+            CreateExerciseScreen(
+                subjectId = subjectId,
+                viewModel = appViewModel,
+                onBackClick = { navController.popBackStack() },
+                onNavigateToCreateQuizEercise = {},
+                onNavigateToCreateBasicExercise = {},
+                onNavigateToClozeExercise = {}
+            )
+
         }
     }
 }

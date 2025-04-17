@@ -1,4 +1,5 @@
-package com.example.flashcardsapp.ui.screens.homePage
+package com.example.flashcardsapp.ui.screens.createExercise
+
 
 import PoppinsBold
 import androidx.compose.foundation.border
@@ -11,24 +12,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.flashcardsapp.R
 import com.example.flashcardsapp.entities.Subject
 
 
 @Composable
-fun SubjectCard(
-    subject: Subject,
+fun ExerciseTypeCard(
+    name: String,
     onButtonClick: (() -> Unit)? = null
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF2EBF96)),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
         modifier = Modifier
             .fillMaxWidth()
             .height(100.dp)
@@ -49,10 +47,10 @@ fun SubjectCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = subject.name,
+                    text = name,
                     fontWeight = FontWeight.Bold,
                     fontSize = 30.sp,
-                    color = Color.White,
+                    color = Color(0xFF595B5A),
                     fontFamily = PoppinsBold,
                     modifier = Modifier
                         .padding(start = 30.dp)
@@ -63,7 +61,7 @@ fun SubjectCard(
                 Icon(
                     imageVector = Icons.Default.ArrowForward,
                     contentDescription = "Ir para assunto",
-                    tint = Color.White,
+                    tint = Color(0XFF2EBF96),
                     modifier = Modifier
                         .padding(start = 20.dp, end = 30.dp)
                         .size(32.dp)

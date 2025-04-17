@@ -59,4 +59,13 @@ class AppViewModel : ViewModel() {
     fun selectLocation(location: Location) {
         selectedLocation.value = location
     }
+
+    fun removeSubject(subject: Subject) {
+        subjects.remove(subject)
+        val subjectIdInt = subject.id.toIntOrNull()
+        if (subjectIdInt != null) {
+            exercises.removeAll { it.subjectId == subjectIdInt }
+        }
+    }
+
 }

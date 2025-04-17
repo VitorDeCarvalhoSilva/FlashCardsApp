@@ -19,10 +19,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flashcardsapp.entities.Subject
 import com.example.flashcardsapp.ui.components.MenuOverlay
+import com.example.flashcardsapp.ui.components.SubjectCard
 import com.example.flashcardsapp.ui.components.Title
 import com.example.flashcardsapp.ui.viewmodels.AppViewModel
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun AssuntosScreen(
     onNavigateToSubject: (Subject) -> Unit,
@@ -32,6 +33,9 @@ fun AssuntosScreen(
     val showAddDialog = remember { mutableStateOf(false) }
     val isAddSubjectOpen = remember { mutableStateOf(false) }
     val isMenuOpen = remember { mutableStateOf(false) }
+    val isOptionsOpen = remember { mutableStateOf(false) }
+    val selectedSubject = remember { mutableStateOf<Subject?>(null) }
+
 
     Scaffold {
         LazyColumn(modifier = Modifier.padding(horizontal = 40.dp)) {
@@ -90,8 +94,18 @@ fun AssuntosScreen(
                     Column {
                         SubjectCard(
                             subject = subject,
-                            onButtonClick = { onNavigateToSubject(subject) }
+                            onClick = { onNavigateToSubject(subject) },
+                            onLongClick = {
+                                selectedSubject.value = subject
+                                isOptionsOpen.value = true
+                            },
+                            onDelete = {
+                                viewModel.removeSubject(subject)
+                            },
+                            isOptionsMenuOpen = selectedSubject.value?.id == subject.id
                         )
+
+
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
@@ -131,4 +145,17 @@ fun AssuntosScreen(
             }
         )
     }
-}  
+    if (selectedSubject.value != null) {
+        OptionsMenuOverlay(
+            onDismiss = {
+                isOptionsOpen.value = false
+                selectedSubject.value = null
+            },
+            onDelete = {
+                viewModel.removeSubject(selectedSubject.value!!)
+                selectedSubject.value = null
+            }
+        )
+    }
+
+}

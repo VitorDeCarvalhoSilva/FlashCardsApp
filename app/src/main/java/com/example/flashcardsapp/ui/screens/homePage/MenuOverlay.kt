@@ -35,8 +35,7 @@ fun MenuOverlay(
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.25f))
             .clickable { isOpen.value = false },
-        contentAlignment = Alignment.CenterStart
-    ) {
+    )
         Box(
             modifier = Modifier
                 .width(300.dp)
@@ -68,4 +67,3 @@ fun MenuOverlay(
             }
         }
     }
-}
