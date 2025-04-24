@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("plugin.serialization") version "1.9.21"
 }
 
 android {
@@ -39,6 +40,8 @@ android {
     }
 }
 
+val ktor_version = "2.3.7"
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -49,6 +52,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.volley)
+    implementation(libs.firebase.crashlytics.buildtools)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,5 +66,15 @@ dependencies {
     implementation(libs.androidx.ui.text.google.fonts)
     
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.ktor.client.core.v237)
+    implementation(libs.ktor.client.cio.v237)
+    implementation(libs.ktor.client.content.negotiation.v237)
+    implementation(libs.ktor.serialization.kotlinx.json.v237)
+    implementation(libs.kotlinx.serialization.json.v160)
+
+
+
+
 
 }

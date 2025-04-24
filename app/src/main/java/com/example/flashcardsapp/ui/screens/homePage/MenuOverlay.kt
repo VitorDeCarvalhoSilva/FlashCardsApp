@@ -8,13 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flashcardsapp.entities.Location
 import com.example.flashcardsapp.ui.screens.homePage.AccordionSection
 import com.example.flashcardsapp.ui.screens.homePage.AddLocationAlert
+import com.example.flashcardsapp.ui.viewmodels.AuthViewModel
 
 @Composable
 fun MenuOverlay(
@@ -24,12 +25,13 @@ fun MenuOverlay(
     onSelectLocation: (Location) -> Unit,
     onAddLocationClick: () -> Unit,
     onAddLocation: (String) -> Unit,
-    onRemoveLocation: (Location) -> Unit
+    onRemoveLocation: (Location) -> Unit,
+    authViewModel: AuthViewModel
 ) {
     val showDialog = remember { mutableStateOf(false) }
-
+    val username = authViewModel.loggedUser.value?.username
     if (!isOpen.value) return
-
+    println(username)
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -44,7 +46,7 @@ fun MenuOverlay(
         ) {
             Column(modifier = Modifier.padding(24.dp)) {
                 Spacer(modifier = Modifier.height(120.dp))
-                Title(text = "Menu",)
+                Title(text = "Olá, $username")
                 Spacer(modifier = Modifier.height(20.dp))
 
                 AccordionSection(

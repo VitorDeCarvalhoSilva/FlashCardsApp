@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun RoundedOutlinedButton(
     text: String,
-    onClick: () -> Unit,
+    onClick:() -> Unit,
     modifier: Modifier = Modifier
 ) {
     Button(

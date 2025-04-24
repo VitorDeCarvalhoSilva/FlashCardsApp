@@ -22,13 +22,15 @@ import com.example.flashcardsapp.ui.components.MenuOverlay
 import com.example.flashcardsapp.ui.components.SubjectCard
 import com.example.flashcardsapp.ui.components.Title
 import com.example.flashcardsapp.ui.viewmodels.AppViewModel
+import com.example.flashcardsapp.ui.viewmodels.AuthViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
 fun AssuntosScreen(
     onNavigateToSubject: (Subject) -> Unit,
     viewModel: AppViewModel = viewModel(),
-    locationsViewModel: AppViewModel = viewModel()
+    locationsViewModel: AppViewModel = viewModel(),
+    authViewModel: AuthViewModel
 ) {
     val showAddDialog = remember { mutableStateOf(false) }
     val isAddSubjectOpen = remember { mutableStateOf(false) }
@@ -116,6 +118,7 @@ fun AssuntosScreen(
     // Menu lateral
     MenuOverlay(
         isOpen = isMenuOpen,
+        authViewModel = authViewModel,
         locations = locationsViewModel.locations,
         selectedLocation = locationsViewModel.selectedLocation.value,
         onSelectLocation = {

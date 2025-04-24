@@ -10,37 +10,48 @@ import java.util.UUID
 
 class AppViewModel : ViewModel() {
 
+    // Lista de assuntos (mockada)
+    val subjects = mutableStateListOf(
+        Subject("1", "Português"),
+        Subject("2", "História")
+    )
 
-    //Subjects and Exercises
+    // Lista de exercícios (mockada)
+    val exercises = mutableStateListOf(
+        Exercise(1, "Questão 1 de Português", 1),
+        Exercise(2, "Questão 2 de Português", 1),
+        Exercise(3, "Questão 1 de História", 2)
+    )
 
-    val subjects = mutableStateListOf<Subject>()
-    val exercises = mutableStateListOf<Exercise>()
-    private var nextId = 1
-
+    // Adiciona novo assunto
     fun addSubject(name: String) {
-        subjects.add(Subject(nextId++.toString(), name))
+        val id = (subjects.size + 1).toString()
+        subjects.add(Subject(id, name))
     }
 
+    // Remove assunto e os exercícios associados
+    fun removeSubject(subject: Subject) {
+        subjects.remove(subject)
+        exercises.removeAll { it.subjectId.toString() == subject.id }
+    }
+
+    // Adiciona exercício a um assunto específico
+    fun addExercise(name: String, subjectId: Int) {
+        val id = exercises.maxOfOrNull { it.id }?.plus(1) ?: 1
+        exercises.add(Exercise(id, name, subjectId))
+    }
+
+    // Retorna todos os exercícios de um assunto
     fun getExercisesForSubject(subjectId: Int): List<Exercise> {
         return exercises.filter { it.subjectId == subjectId }
     }
 
-    fun addExercise(subjectId: Int, name: String) {
-        exercises.add(Exercise(nextId++, name, subjectId))
-    }
-
-    fun removeExercise(exercise: Exercise) {
-        exercises.remove(exercise)
-    }
-
-
-    //Location
-
-    val locations = mutableStateListOf<Location>(
-        Location("1", "Localização 1"),
-        Location("2", "Localização 2"),
-        Location("3", "Localização 3")
+    val locations = mutableStateListOf(
+        Location("1", "Quarto"),
+        Location("2", "Biblioteca"),
+        Location("3", "Ônibus")
     )
+
     val selectedLocation = mutableStateOf<Location?>(null)
 
     fun addLocation(name: String) {
@@ -58,14 +69,6 @@ class AppViewModel : ViewModel() {
 
     fun selectLocation(location: Location) {
         selectedLocation.value = location
-    }
-
-    fun removeSubject(subject: Subject) {
-        subjects.remove(subject)
-        val subjectIdInt = subject.id.toIntOrNull()
-        if (subjectIdInt != null) {
-            exercises.removeAll { it.subjectId == subjectIdInt }
-        }
     }
 
 }
