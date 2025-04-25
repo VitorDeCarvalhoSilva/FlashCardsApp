@@ -19,11 +19,14 @@ import com.example.flashcardsapp.ui.components.HeaderButtons
 import com.example.flashcardsapp.ui.components.Title
 import com.example.flashcardsapp.ui.screens.subjectPage.ExerciseCard
 import com.example.flashcardsapp.ui.viewmodels.AppViewModel
+import com.example.flashcardsapp.ui.viewmodels.AuthViewModel
+import com.example.models.Flashcard
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SubjectDetailScreen(
     subjectId: Int,
+    userId: Int,
     viewModel: AppViewModel,
     onBackClick: () -> Unit,
     onNavigateToCreateExercise: (Int) -> Unit
@@ -89,9 +92,8 @@ fun SubjectDetailScreen(
                     }
                 }
             }
-            items(exercises, key = { it.id }) { exercise ->
-                ExerciseCard(exercise = exercise)
-            }
+
+
         }
     }
 }

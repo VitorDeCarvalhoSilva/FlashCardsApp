@@ -3,7 +3,7 @@ package com.example.flashcardsapp.ui.viewmodels
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flashcardsapp.entities.AuthResponse
+import com.example.flashcardsapp.entities.LoginResponse
 import com.example.flashcardsapp.entities.User
 import io.ktor.client.*
 import io.ktor.client.call.body
@@ -19,8 +19,6 @@ import kotlinx.serialization.json.Json
 class AuthViewModel : ViewModel() {
     private val baseUrl = "http://10.0.2.2:8080/auth"
 
-    val username = mutableStateOf("")
-    val password = mutableStateOf("")
     val isRegistered = mutableStateOf(false)
     val isLoggedIn = mutableStateOf(false)
     val errorMessage = mutableStateOf<String?>(null)
@@ -71,10 +69,14 @@ class AuthViewModel : ViewModel() {
                 if (response.status == HttpStatusCode.OK) {
                     val responseBody = response.bodyAsText()
                     println("Response Body: $responseBody")
-                    val user = Json.decodeFromString<User>(responseBody)
+
+                    val loginResponse = Json.decodeFromString<LoginResponse>(responseBody)
+                    val user = loginResponse.data
+
                     loggedUser.value = user
                     isLoggedIn.value = true
-                    println("Login bem-sucedido: ${user.username}")
+
+                    println("Login bem-sucedido: User: ${user.username}, Id: ${user.id}")
                 }
                 else {
                     errorMessage.value = "Erro no login: ${response.status}"

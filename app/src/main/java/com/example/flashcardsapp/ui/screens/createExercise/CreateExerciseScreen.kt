@@ -21,9 +21,10 @@ import com.example.flashcardsapp.ui.viewmodels.AppViewModel
 fun CreateExerciseScreen(
     subjectId: Int,
     viewModel: AppViewModel,
+    userId: Int,
     onBackClick: () -> Unit,
     onNavigateToCreateQuizEercise: () -> Unit,
-    onNavigateToCreateBasicExercise: () -> Unit,
+    onNavigateToFlipCardCreate: () -> Unit,
     onNavigateToClozeExercise: () -> Unit
 ) {
     println("CreateExerciseScreen, assunto: ${subjectId}")
@@ -52,7 +53,7 @@ fun CreateExerciseScreen(
             item {
                 ExerciseTypeCard(
                     name = "Básico",
-                    onButtonClick = onNavigateToCreateBasicExercise
+                    onButtonClick = onNavigateToFlipCardCreate
                 )
                 Spacer(modifier = Modifier.height(20.dp))
             }

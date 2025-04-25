@@ -26,11 +26,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.flashcardsapp.entities.Exercise
+import com.example.models.Flashcard
 
 @Composable
 fun ExerciseCard(
-    exercise: Exercise,
     onButtonClick: (() -> Unit)? = null
 ){
     Card(

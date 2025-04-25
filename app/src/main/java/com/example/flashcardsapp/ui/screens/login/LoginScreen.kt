@@ -46,7 +46,7 @@ fun LoginScreen(
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf<String>("") }
-
+    val viewModel: AuthViewModel = authViewModel
 
     Column(
         modifier = Modifier
@@ -76,6 +76,7 @@ fun LoginScreen(
             onValueChange = { username = it },
             label = { Text("Username") },
             modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
             textStyle = TextStyle(
                 fontFamily = PoppinsRegular,
                 fontSize = 18.sp,
@@ -97,6 +98,8 @@ fun LoginScreen(
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp),
+
             textStyle = TextStyle(
                 fontFamily = PoppinsBold,
                 fontSize = 18.sp,
@@ -110,7 +113,7 @@ fun LoginScreen(
             ),
             maxLines = 1
         )
-        val viewModel: AuthViewModel = viewModel()
+
         Spacer(modifier = Modifier.height(16.dp))
         RoundedOutlinedButton(
             text = "Login",

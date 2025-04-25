@@ -1,3 +1,5 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.example.flashcardsapp
 
 import androidx.compose.runtime.Composable
@@ -9,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.flashcardsapp.login.LoginScreen
 import com.example.flashcardsapp.ui.screens.createExercise.CreateExerciseScreen
+import com.example.flashcardsapp.ui.screens.flipCardCreate.FlipCardCreateScreen
 import com.example.flashcardsapp.ui.screens.homePage.AssuntosScreen
 import com.example.flashcardsapp.ui.screens.register.RegisterScreen
 import com.example.flashcardsapp.ui.screens.subjectDetail.SubjectDetailScreen
@@ -66,8 +69,10 @@ fun FlashCardsApp() {
             arguments = listOf(navArgument("subjectId") { type = NavType.IntType })
         ) { backStackEntry ->
             val subjectId = backStackEntry.arguments?.getInt("subjectId") ?: return@composable
+            val userId = authViewModel.loggedUser.value?.id ?: return@composable
             SubjectDetailScreen(
                 subjectId = subjectId,
+                userId = userId,
                 viewModel = appViewModel,
                 onBackClick = { navController.popBackStack() },
                 onNavigateToCreateExercise = { subjectId ->
@@ -81,13 +86,26 @@ fun FlashCardsApp() {
             arguments = listOf(navArgument("subjectId") { type = NavType.IntType })
         ) { backStackEntry ->
             val subjectId = backStackEntry.arguments?.getInt("subjectId") ?: return@composable
+            val userId = authViewModel.loggedUser.value?.id ?: return@composable
             CreateExerciseScreen(
                 subjectId = subjectId,
                 viewModel = appViewModel,
+                userId = userId,
                 onBackClick = { navController.popBackStack() },
                 onNavigateToCreateQuizEercise = {},
-                onNavigateToCreateBasicExercise = {},
-                onNavigateToClozeExercise = {}
+                onNavigateToFlipCardCreate = {navController.navigate("flip_card_create/$userId/$subjectId")},
+                onNavigateToClozeExercise = {},
+
+            )
+        }
+        composable("flip_card_create/{userId}/{subjectId}") {
+            val userId = it.arguments?.getString("userId")
+            val subjectId = it.arguments?.getString("subjectId")
+            FlipCardCreateScreen(
+                userId = userId!!.toInt(),
+                subjectId = subjectId!!.toInt(),
+                onBackClick = { navController.popBackStack() },
+
             )
         }
     }
